@@ -1,28 +1,62 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<v-app>
+		<Header />
+		<v-main>
+			<MainPage />
+		</v-main>
+		<Footer />
+		<ModalsParent v-if="getCurrentModal.modalShow"/>
+	</v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import {mapActions, mapGetters} from 'vuex';
+
+import Footer from './components/Footer';
+import Header from './components/Header';
+import MainPage from './components/MainPage';
+import ModalsParent from './components/modals/ModalsParent';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+	name: 'App',
+
+	components: {
+		Footer,
+		Header,
+		MainPage,
+		ModalsParent
+	},
+
+	computed: {
+		...mapGetters([
+			'getCurrentModal'
+		])	
+	},
+
+	created() {
+		this.loadPackagesAction();
+		this.setCurrentWidthAction(Number(document.documentElement.clientWidth));
+		window.onresize = () => this.setCurrentWidthAction(Number(document.documentElement.clientWidth));
+	},
+
+	methods: {
+		...mapActions([
+			'loadPackagesAction',
+			'setCurrentWidthAction'
+		])
+	},
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+.openModal{
+	position: fixed;
+	overflow: hidden;
+}
+</style>
+
+<style lang="scss" scoped>
+.shrink{
+	width: 2000px;
 }
 </style>
