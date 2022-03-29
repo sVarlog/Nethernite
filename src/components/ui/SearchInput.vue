@@ -32,8 +32,7 @@ export default {
             'showModalAction'
         ]),
         selectPackage(name) {
-            console.log('show modal', name);
-            this.showModalAction({modalShow: true, modalType: 'packageModal', modalData: name});
+            if (name) this.showModalAction({modalShow: true, modalType: 'packageModal', modalData: name});
         }
     }
 }
